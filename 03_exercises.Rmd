@@ -157,7 +157,7 @@ Here is the code to read in the data. We do this a little differently than usual
 
 ```{r cache=TRUE}
 data_site <- 
-  "https://www.macalester.edu/~dshuman1/data/112/2014-Q4-Trips-History-Data-Small.rds" 
+  "https://www.macalester.edu/~dshuman1/data/112/2014-Q4-Trips-History-Data.rds" 
 Trips <- readRDS(gzcon(url(data_site)))
 Stations<-read_csv("http://www.macalester.edu/~dshuman1/data/112/DC-Stations.csv")
 ```
@@ -173,23 +173,13 @@ It's natural to expect that bikes are rented more at some times of day, some day
 ```{r}
 Trips %>%
   ggplot(aes(x = sdate)) + 
-  geom_density() 
-  
-  
-  #separate(sdate, 
-           #into = c("date", "time"),
-           #sep = "[[:space:]]") %>%
-  #group_by(date) %>%
-  #summarise(events_each_day = n()) %>%
-  #(aes(x = events_each_day)) + 
-  #geom_density()
-  
-  
-  ##group_by(sdate) %>%
-  #summarise(events_each_day = count(sdate)) %>%
-  #ggplot(aes(x = sdate)) + 
-  #geom_density()
+  geom_density() + 
+  xlab("date") + 
+  ggtitle("Density Plot of Bikes Being Rented Each Day")
+ 
 ```
+  
+  This plot shows us how often bikes were rented between Oct and Jan. As we can see, the traffic decreased from Oct to Jan. This is most likely because it started to get cold, and less people were using bikes. 
   
   8. A density plot of the events versus time of day.  You can use `mutate()` with `lubridate`'s  `hour()` and `minute()` functions to extract the hour of the day and minute within the hour from `sdate`. Hint: A minute is 1/60 of an hour, so create a variable where 3:30 is 3.5 and 3:45 is 3.75.
   
@@ -201,9 +191,14 @@ Trips %>%
   mutate(Hour = hour(hms(time)),
          Min = minute(hms(time)),
          time_float = Hour + Min/60) %>%
-  ggplot(aes(x = time_float)) + 
-  geom_density() 
+  ggplot(aes(x = time_float) )+ 
+  geom_density() +
+  xlab("Military Time") + 
+  ggtitle("Density Plot of Bikes Being Rented By Time Of Day")
 ```
+  
+  This plot shows us how often bikes were rented ,on average, each day. AS we can see, there are spikes in activity during 08:00 and 18:00. This is around the time poepl go to /come back from work, so this makes sense. 
+  
   
   9. A bar graph of the events versus day of the week. Put day on the y-axis.
   
@@ -214,8 +209,11 @@ Trips %>%
            sep = "[[:space:]]") %>%
   mutate(weekday = wday(date, label = TRUE)) %>%
   ggplot(aes(y = weekday)) + 
-  geom_bar()
+  geom_bar() + 
+  ggtitle("How often Bikes are Rented Each Day of the Week between Oct and Jan")
 ```
+  
+  This bar graph shows us how often bikes were rented each day of the week between Oct and Jan 
   
   10. Facet your graph from exercise 8. by day of the week. Is there a pattern?
   
@@ -230,7 +228,8 @@ Trips %>%
          weekday = wday(date, label = TRUE)) %>%
   ggplot(aes(x = time_float)) + 
   geom_density() + 
-  facet_wrap(vars(weekday)) 
+  facet_wrap(vars(weekday)) + 
+  ggtitle("Density Plot of Bikes Being Rented By Time Of Day, Seperated by Weekday")
 ```
   
   Yes, there is a pattern. for weekdays, there is a higher density for bike usage around 08:00 and 18:00. This makes sense since this is around the time people go to work and leave from work. This is not present for weekends, which also makes sense since most people don't work on weekends. The pattern present on weekends is that there is rising activity from early morning up until early afternoon around 02:00 , after which the density begins to slowly decline.    
@@ -239,7 +238,7 @@ The variable `client` describes whether the renter is a regular user (level `Reg
 
   11. Change the graph from exercise 10 to set the `fill` aesthetic for `geom_density()` to the `client` variable. You should also set `alpha = .5` for transparency and `color=NA` to suppress the outline of the density function.
   
-```{r}
+```{r,fig.width=10}
 Trips %>%
   separate(sdate, 
            into = c("date", "time"),
@@ -250,12 +249,13 @@ Trips %>%
          weekday = wday(date, label = TRUE)) %>%
   ggplot(aes(x = time_float, alpha = .5, fill = client, color = "NA")) + 
   geom_density() + 
-  facet_wrap(vars(weekday)) 
+  facet_wrap(vars(weekday)) + 
+  ggtitle("Density Plot of Bikes Being Rented By Time Of Day, Seperated by Weekday and Client Type") 
 ```
 
   12. Change the previous graph by adding the argument `position = position_stack()` to `geom_density()`. In your opinion, is this better or worse in terms of telling a story? What are the advantages/disadvantages of each?
   
-```{r}
+```{r,fig.width=10}
 Trips %>%
   separate(sdate, 
            into = c("date", "time"),
@@ -266,14 +266,15 @@ Trips %>%
          weekday = wday(date, label = TRUE)) %>%
   ggplot(aes(x = time_float, alpha = .5, fill = client, color = "NA")) + 
   geom_density(position = position_stack()) + 
-  facet_wrap(vars(weekday)) 
+  facet_wrap(vars(weekday)) + 
+  ggtitle("Density Plot of Bikes Being Rented By Time Of Day, Seperated by Weekday and Client Type") 
 ```
   
   I think that this is better. The previous graph does not tell us much in terms of casual vs registered. However, in this graph, we can tell that the amount of casual bikers is more than the amount that are registered, on average.   
   
   13. In this graph, go back to using the regular density plot (without `position = position_stack()`). Add a new variable to the dataset called `weekend` which will be "weekend" if the day is Saturday or Sunday and  "weekday" otherwise (HINT: use the `ifelse()` function and the `wday()` function from `lubridate`). Then, update the graph from the previous problem by faceting on the new `weekend` variable. 
   
-```{r}
+```{r,fig.width=10}
 Trips %>%
   separate(sdate, 
            into = c("date", "time"),
@@ -285,12 +286,13 @@ Trips %>%
          weekend = ifelse(Day == 1 | Day == 7, "Weekend", "Weekday")) %>%
   ggplot(aes(x = time_float, alpha = .5, fill = client, color = "NA")) + 
   geom_density() + 
-  facet_wrap(vars(weekend)) 
+  facet_wrap(vars(weekend)) + 
+  ggtitle("Density Plot of Bikes Being Rented By Time Of Day, Organized by Weekday/Weekend and Client Type") 
 ```
   
   14. Change the graph from the previous problem to facet on `client` and fill with `weekday`. What information does this graph tell you that the previous didn't? Is one graph better than the other?
   
-```{r}
+```{r,fig.width=10}
 Trips %>%
   separate(sdate, 
            into = c("date", "time"),
@@ -302,8 +304,12 @@ Trips %>%
          weekend = ifelse(Day == 1 | Day == 7, "Weekend", "Weekday")) %>%
   ggplot(aes(x = time_float, alpha = .5, fill = Day, color = "NA")) + 
   geom_density() + 
-  facet_wrap(vars(client)) 
+  facet_wrap(vars(client)) + 
+  ggtitle("Density Plot of Bikes Being Rented By Time Of Day, Organized by Client Type and Weekday")
 ```
+  
+  
+  
   
 ### Spatial patterns
 
@@ -315,20 +321,26 @@ Trips %>%
   select(sstation,lat,long) %>%
   group_by(lat,long,sstation) %>%
   summarise(num_stations = n()) %>%
-  ggplot(aes(x=lat, y=long, color = num_stations)) + 
-  geom_point()
+  ggplot(aes(x=lat, y=long, size = num_stations)) + 
+  geom_point() + 
+  ggtitle("Visualization of Number of Departures from Different Stations") + 
+  xlab("Latitude") + 
+  ylab("Longitude")
 ```
   
   16. Only 14.4% of the trips in our data are carried out by casual users. Create a plot that shows which area(s) have stations with a much higher percentage of departures by casual users. What patterns do you notice? (Again, we'll improve this next week when we learn about maps).
   
-```{r}
+```{r,fig.width=8}
 Trips %>%
   left_join(Stations, by = c("sstation" = "name")) %>%
   filter (client == "Casual") %>%
   group_by(lat,long,sstation) %>%
   summarise(num_stations = n()) %>%
-  ggplot(aes(x=lat, y=long, color = num_stations)) + 
-  geom_point()
+  ggplot(aes(x=lat, y=long, size = num_stations)) + 
+  geom_point()+ 
+  ggtitle("Visualization of Number of Departures made by Casual users from Different Stations") + 
+  xlab("Latitude") + 
+  ylab("Longitude")
 ```
   
 **DID YOU REMEMBER TO GO BACK AND CHANGE THIS SET OF EXERCISES TO THE LARGER DATASET? IF NOT, DO THAT NOW.**
@@ -339,15 +351,58 @@ In this section, we'll use the data from 2022-02-01 Tidy Tuesday. If you didn't 
 
   17. The final product of this exercise will be a graph that has breed on the y-axis and the sum of the numeric ratings in the `breed_traits` dataset on the x-axis, with a dot for each rating. First, create a new dataset called `breed_traits_total` that has two variables -- `Breed` and `total_rating`. The `total_rating` variable is the sum of the numeric ratings in the `breed_traits` dataset (we'll use this dataset again in the next problem). Then, create the graph just described. Omit Breeds with a `total_rating` of 0 and order the Breeds from highest to lowest ranked. You may want to adjust the `fig.height` and `fig.width` arguments inside the code chunk options (eg. `{r, fig.height=8, fig.width=4}`) so you can see things more clearly - check this after you knit the file to assure it looks like what you expected.
 
-```{r}
+```{r,fig.height=24, fig.width=10}
 breed_traits_total <- breed_traits %>%
+  rowwise() %>%
+  summarise(total_rating = sum(c(`Affectionate With Family`, 
+                              `Good With Young Children`,
+                              `Good With Other Dogs`,
+                              `Shedding Level`,
+                              `Coat Grooming Frequency`,
+                              `Drooling Level`,
+                              `Openness To Strangers`,
+                              `Playfulness Level`,
+                              `Watchdog/Protective Nature`,
+                              `Adaptability Level`,
+                              `Trainability Level`,
+                              `Energy Level`,
+                              `Barking Level`,
+                              `Mental Stimulation Needs`)),
+            Breed = Breed)
+
+breed_traits_total %>%
+  filter (total_rating != 0) %>%
+  ggplot(aes(y= fct_reorder(Breed,total_rating), x= total_rating)) + 
+  geom_point() + 
+  ggtitle("Dog Breeds From Highest Total Rating to Lowest")
+  
   
 ```
 
   18. The final product of this exercise will be a graph with the top-20 dogs in total ratings (from previous problem) on the y-axis, year on the x-axis, and points colored by each breed's ranking for that year (from the `breed_rank_all` dataset). The points within each breed will be connected by a line, and the breeds should be arranged from the highest median rank to lowest median rank ("highest" is actually the smallest numer, eg. 1 = best). After you're finished, think of AT LEAST one thing you could you do to make this graph better. HINTS: 1. Start with the `breed_rank_all` dataset and pivot it so year is a variable. 2. Use the `separate()` function to get year alone, and there's an extra argument in that function that can make it numeric. 3. For both datasets used, you'll need to `str_squish()` Breed before joining. 
   
 ```{r}
+breed_rank_all_squished <- breed_rank_all %>%
+  mutate(squished_Breed = str_squish(Breed)) #remove white space from the second dataset
 
+
+
+breed_traits_total %>% 
+  top_n(20) %>%
+  mutate(squished_Breed = str_squish(Breed)) %>% #remove white space from first dataset
+  left_join(breed_rank_all_squished, by = "squished_Breed") %>%
+  pivot_longer(cols = starts_with("20"),
+               names_to = "Year",
+               values_to = "Rank") %>%
+  select(squished_Breed, total_rating, Year, Rank) %>%
+  separate("Year",
+           into = c("year"),
+           convert = TRUE) %>%
+  ggplot(aes(y = squished_Breed, x = year, color = Rank)) + 
+  geom_point() + 
+  ggtitle("Top 20 Dogs by total ratings and their Ranks from 2013 to 2020") + 
+  ylab("breed")
+  
 ```
   
   19. Create your own! Requirements: use a `join` or `pivot` function (or both, if you'd like), a `str_XXX()` function, and a `fct_XXX()` function to create a graph using any of the dog datasets. One suggestion is to try to improve the graph you created for the Tidy Tuesday assignment. If you want an extra challenge, find a way to use the dog images in the `breed_rank_all` file - check out the `ggimage` library and [this resource](https://wilkelab.org/ggtext/) for putting images as labels.
