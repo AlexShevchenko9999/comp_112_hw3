@@ -408,7 +408,22 @@ breed_traits_total %>%
   19. Create your own! Requirements: use a `join` or `pivot` function (or both, if you'd like), a `str_XXX()` function, and a `fct_XXX()` function to create a graph using any of the dog datasets. One suggestion is to try to improve the graph you created for the Tidy Tuesday assignment. If you want an extra challenge, find a way to use the dog images in the `breed_rank_all` file - check out the `ggimage` library and [this resource](https://wilkelab.org/ggtext/) for putting images as labels.
   
 ```{r}
-
+breed_traits %>%
+  mutate(Coat_length = str_sub(`Coat Length`, 1, 1)) %>% # abbreviate coat length
+  pivot_longer(cols = -c(Breed, `Coat Length`, `Coat Type`, Coat_length), 
+               names_to = "Trait",
+               values_to = "Rating") %>%
+  select(Coat_length, `Coat Type`,Trait, Rating) %>%
+  filter(Coat_length %in% c("S", "M","L"), #exclude plott hounds
+         Trait %in% c("Shedding Level"))  %>% 
+  group_by(Coat_length, `Coat Type`) %>% 
+  summarise(avg=mean(Rating)) %>% 
+  ggplot(aes(x = avg , y = fct_reorder(`Coat Type`,avg), fill = Coat_length)) + 
+  geom_col() + 
+  ggtitle("How does Coat Type Affect Shedding and Grooming, Organized by Length") + 
+  xlab("Avg Shedding Lvl ") + 
+  ylab("Coat Type") + 
+  facet_wrap(vars(Coat_length))
 ```
   
 ## GitHub link
