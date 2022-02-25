@@ -12,7 +12,7 @@ output:
 
 
 ```{r setup, include=FALSE}
-#knitr::opts_chunk$set(echo = TRUE, error=TRUE, message=FALSE, warning=FALSE)
+knitr::opts_chunk$set(echo = TRUE, error=TRUE, message=FALSE, warning=FALSE)
 ```
 
 ```{r libraries}
@@ -112,7 +112,9 @@ garden_harvest %>%
   summarise(first_harvest = first(weight)) %>%
   ggplot(aes(x = first_harvest, y = fct_rev(fct_reorder(variety, first_harvest))) )+ 
   geom_col() + 
-  ggtitle("Tomato Varieties' First Harvest Weight")
+  ggtitle("Tomato Varieties' First Harvest Weight") + 
+  ylab("Tomato Variety") + 
+  xlab("First Harvest Count")
   
 ```
 
@@ -197,7 +199,7 @@ Trips %>%
   ggtitle("Density Plot of Bikes Being Rented By Time Of Day")
 ```
   
-  This plot shows us how often bikes were rented ,on average, each day. AS we can see, there are spikes in activity during 08:00 and 18:00. This is around the time poepl go to /come back from work, so this makes sense. 
+  This plot shows us how often bikes were rented ,on average, each day. AS we can see, there are spikes in activity during 08:00 and 18:00. This is around the time people go to /come back from work, so this makes sense. 
   
   
   9. A bar graph of the events versus day of the week. Put day on the y-axis.
@@ -424,6 +426,7 @@ breed_traits %>%
   xlab("Avg Shedding Lvl ") + 
   ylab("Coat Type") + 
   facet_wrap(vars(Coat_length))
+
 ```
   
 ## GitHub link
