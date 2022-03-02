@@ -16,42 +16,8 @@ output:
 
 ```r
 library(tidyverse)     # for graphing and data cleaning
-```
-
-```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-```
-
-```
-## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.6     ✓ dplyr   1.0.8
-## ✓ tidyr   1.2.0     ✓ stringr 1.4.0
-## ✓ readr   2.1.2     ✓ forcats 0.5.1
-```
-
-```
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(gardenR)       # for Lisa's garden data
 library(lubridate)     # for date manipulation
-```
-
-```
-## 
-## Attaching package: 'lubridate'
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     date, intersect, setdiff, union
-```
-
-```r
 library(ggthemes)      # for even more plotting themes
 library(geofacet)      # for special faceting with US map layout
 theme_set(theme_minimal())       # My favorite ggplot() theme :)
@@ -70,62 +36,11 @@ data("garden_planting")
 
 # Tidy Tuesday dog breed data
 breed_traits <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-02-01/breed_traits.csv')
-```
-
-```
-## Rows: 195 Columns: 17
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr  (3): Breed, Coat Type, Coat Length
-## dbl (14): Affectionate With Family, Good With Young Children, Good With Othe...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
-
-```r
 trait_description <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-02-01/trait_description.csv')
-```
-
-```
-## Rows: 16 Columns: 4
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (4): Trait, Trait_1, Trait_5, Description
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
-
-```r
 breed_rank_all <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-02-01/breed_rank.csv')
-```
 
-```
-## Rows: 195 Columns: 11
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (3): Breed, links, Image
-## dbl (8): 2013 Rank, 2014 Rank, 2015 Rank, 2016 Rank, 2017 Rank, 2018 Rank, 2...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
-
-```r
 # Tidy Tuesday data for challenge problem
 kids <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-15/kids.csv')
-```
-
-```
-## Rows: 23460 Columns: 6
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (2): state, variable
-## dbl (4): year, raw, inf_adj, inf_adj_perchild
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ## Setting up on GitHub!
@@ -173,11 +88,6 @@ garden_harvest %>%
   pivot_wider(names_from = Day, values_from = daily_weight)
 ```
 
-```
-## `summarise()` has grouped output by 'vegetable'. You can override using the
-## `.groups` argument.
-```
-
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["vegetable"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Sat"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mon"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Tue"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Thu"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Fri"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Sun"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Wed"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"apple","2":"156","3":"NA","4":"NA","5":"NA","6":"NA","7":"NA","8":"NA"},{"1":"asparagus","2":"20","3":"NA","4":"NA","5":"NA","6":"NA","7":"NA","8":"NA"},{"1":"basil","2":"186","3":"30","4":"50","5":"12","6":"212","7":"NA","8":"NA"},{"1":"beans","2":"2136","3":"2952","4":"1990","5":"1539","6":"692","7":"868","8":"1852"},{"1":"beets","2":"172","3":"305","4":"72","5":"5394","6":"11","7":"146","8":"83"},{"1":"broccoli","2":"NA","3":"372","4":"NA","5":"NA","6":"75","7":"571","8":"321"},{"1":"carrots","2":"1057","3":"395","4":"160","5":"1213","6":"970","7":"1332","8":"2523"},{"1":"chives","2":"NA","3":"NA","4":"NA","5":"NA","6":"NA","7":"NA","8":"8"},{"1":"cilantro","2":"17","3":"NA","4":"2","5":"NA","6":"33","7":"NA","8":"NA"},{"1":"corn","2":"597","3":"344","4":"330","5":"NA","6":"1564","7":"661","8":"2405"},{"1":"cucumbers","2":"4373","3":"2166","4":"4557","5":"1500","6":"3370","7":"1408","8":"2407"},{"1":"edamame","2":"2127","3":"NA","4":"636","5":"NA","6":"NA","7":"NA","8":"NA"},{"1":"hot peppers","2":"NA","3":"571","4":"64","5":"NA","6":"NA","7":"NA","8":"31"},{"1":"jalapeño","2":"684","3":"2519","4":"249","5":"102","6":"587","7":"119","8":"218"},{"1":"kale","2":"676","3":"938","4":"128","5":"127","6":"173","7":"375","8":"280"},{"1":"kohlrabi","2":"NA","3":"NA","4":"NA","5":"191","6":"NA","7":"NA","8":"NA"},{"1":"lettuce","2":"597","3":"1115","4":"416","5":"1112","6":"817","7":"665","8":"538"},{"1":"onions","2":"868","3":"231","4":"321","5":"273","6":"33","7":"118","8":"NA"},{"1":"peas","2":"1294","3":"2102","4":"938","5":"1541","6":"425","7":"933","8":"490"},{"1":"peppers","2":"627","3":"1146","4":"655","5":"322","6":"152","7":"228","8":"1108"},{"1":"potatoes","2":"1271","3":"440","4":"NA","5":"5376","6":"1697","7":"NA","8":"2073"},{"1":"pumpkins","2":"42043","3":"13662","4":"14450","5":"NA","6":"NA","7":"NA","8":"NA"},{"1":"radish","2":"105","3":"89","4":"43","5":"67","6":"88","7":"37","8":"NA"},{"1":"raspberries","2":"242","3":"59","4":"152","5":"131","6":"259","7":"NA","8":"NA"},{"1":"rutabaga","2":"3129","3":"NA","4":"NA","5":"NA","6":"1623","7":"8738","8":"NA"},{"1":"spinach","2":"118","3":"67","4":"225","5":"106","6":"89","7":"221","8":"97"},{"1":"squash","2":"25502","3":"11038","4":"8377","5":"NA","6":"NA","7":"NA","8":"NA"},{"1":"strawberries","2":"77","3":"217","4":"NA","5":"40","6":"221","7":"37","8":"NA"},{"1":"Swiss chard","2":"333","3":"487","4":"32","5":"1012","6":"280","7":"566","8":"412"},{"1":"tomatoes","2":"15933","3":"5213","4":"22113","5":"15657","6":"38590","7":"34296","8":"26429"},{"1":"zucchini","2":"1549","3":"5532","4":"7470","5":"15708","6":"8492","7":"5550","8":"926"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -192,10 +102,6 @@ garden_harvest %>%
   group_by(variety) %>%
   summarise(tot_harvest = sum(weight)) %>%
   left_join(garden_planting)
-```
-
-```
-## Joining, by = "variety"
 ```
 
 <div data-pagedtable="false">
@@ -221,7 +127,9 @@ garden_harvest %>%
   summarise(first_harvest = first(weight)) %>%
   ggplot(aes(x = first_harvest, y = fct_rev(fct_reorder(variety, first_harvest))) )+ 
   geom_col() + 
-  ggtitle("Tomato Varieties' First Harvest Weight")
+  ggtitle("Tomato Varieties' First Harvest Weight") + 
+  ylab("Tomato Variety") + 
+  xlab("First Harvest Count")
 ```
 
 ![](03_exercises_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
@@ -287,17 +195,6 @@ Trips <- readRDS(gzcon(url(data_site)))
 Stations<-read_csv("http://www.macalester.edu/~dshuman1/data/112/DC-Stations.csv")
 ```
 
-```
-## Rows: 347 Columns: 5
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (1): name
-## dbl (4): lat, long, nbBikes, nbEmptyDocks
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
-
 **NOTE:** The `Trips` data table is a random subset of 10,000 trips from the full quarterly data. Start with this small data table to develop your analysis commands. **When you have this working well, you should access the full data set of more than 600,000 events by removing `-Small` from the name of the `data_site`.**
 
 ### Temporal patterns
@@ -338,7 +235,7 @@ Trips %>%
 
 ![](03_exercises_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
   
-  This plot shows us how often bikes were rented ,on average, each day. AS we can see, there are spikes in activity during 08:00 and 18:00. This is around the time poepl go to /come back from work, so this makes sense. 
+  This plot shows us how often bikes were rented ,on average, each day. AS we can see, there are spikes in activity during 08:00 and 18:00. This is around the time people go to /come back from work, so this makes sense. 
   
   
   9. A bar graph of the events versus day of the week. Put day on the y-axis.
@@ -467,7 +364,7 @@ Trips %>%
 
 ![](03_exercises_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
   
-  
+  This graph has a lot of overlapping values since a lot of the days have similar dat (like weekdays and weekends). However, this data is useful in that it distinguishesthe data by caual and registered users. This data is not better than the previous data, since it is hard to distinguish each individual date, and it is better to group the days into 2 catagories: weekend and weekday.  
   
   
 ### Spatial patterns
@@ -488,15 +385,6 @@ Trips %>%
   ylab("Longitude")
 ```
 
-```
-## `summarise()` has grouped output by 'lat', 'long'. You can override using the
-## `.groups` argument.
-```
-
-```
-## Warning: Removed 12 rows containing missing values (geom_point).
-```
-
 ![](03_exercises_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
   
   16. Only 14.4% of the trips in our data are carried out by casual users. Create a plot that shows which area(s) have stations with a much higher percentage of departures by casual users. What patterns do you notice? (Again, we'll improve this next week when we learn about maps).
@@ -507,21 +395,12 @@ Trips %>%
   left_join(Stations, by = c("sstation" = "name")) %>%
   filter (client == "Casual") %>%
   group_by(lat,long,sstation) %>%
-  summarise(num_stations = n()) %>%
+  summarise(num_stations = n())%>%
   ggplot(aes(x=lat, y=long, size = num_stations)) + 
   geom_point()+ 
   ggtitle("Visualization of Number of Departures made by Casual users from Different Stations") + 
   xlab("Latitude") + 
   ylab("Longitude")
-```
-
-```
-## `summarise()` has grouped output by 'lat', 'long'. You can override using the
-## `.groups` argument.
-```
-
-```
-## Warning: Removed 12 rows containing missing values (geom_point).
 ```
 
 ![](03_exercises_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
@@ -589,15 +468,6 @@ breed_traits_total %>%
   ylab("breed")
 ```
 
-```
-## Selecting by Breed
-```
-
-```
-## Warning: Expected 1 pieces. Additional pieces discarded in 160 rows [1, 2, 3, 4,
-## 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].
-```
-
 ![](03_exercises_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
   
   19. Create your own! Requirements: use a `join` or `pivot` function (or both, if you'd like), a `str_XXX()` function, and a `fct_XXX()` function to create a graph using any of the dog datasets. One suggestion is to try to improve the graph you created for the Tidy Tuesday assignment. If you want an extra challenge, find a way to use the dog images in the `breed_rank_all` file - check out the `ggimage` library and [this resource](https://wilkelab.org/ggtext/) for putting images as labels.
@@ -622,16 +492,13 @@ breed_traits %>%
   facet_wrap(vars(Coat_length))
 ```
 
-```
-## `summarise()` has grouped output by 'Coat_length'. You can override using the
-## `.groups` argument.
-```
-
 ![](03_exercises_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
   
 ## GitHub link
 
   20. Below, provide a link to your GitHub page with this set of Weekly Exercises. Specifically, if the name of the file is 03_exercises.Rmd, provide a link to the 03_exercises.md file, which is the one that will be most readable on GitHub.
+  
+[here](https://github.com/AlexShevchenko9999/comp_112_hw3/blob/main/03_exercises.md).
 
 ## Challenge problem! 
 

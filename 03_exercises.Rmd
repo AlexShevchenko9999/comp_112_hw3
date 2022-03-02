@@ -310,7 +310,7 @@ Trips %>%
   ggtitle("Density Plot of Bikes Being Rented By Time Of Day, Organized by Client Type and Weekday")
 ```
   
-  
+  This graph has a lot of overlapping values since a lot of the days have similar dat (like weekdays and weekends). However, this data is useful in that it distinguishesthe data by caual and registered users. This data is not better than the previous data, since it is hard to distinguish each individual date, and it is better to group the days into 2 catagories: weekend and weekday.  
   
   
 ### Spatial patterns
@@ -337,7 +337,7 @@ Trips %>%
   left_join(Stations, by = c("sstation" = "name")) %>%
   filter (client == "Casual") %>%
   group_by(lat,long,sstation) %>%
-  summarise(num_stations = n()) %>%
+  summarise(num_stations = n())%>%
   ggplot(aes(x=lat, y=long, size = num_stations)) + 
   geom_point()+ 
   ggtitle("Visualization of Number of Departures made by Casual users from Different Stations") + 
@@ -432,6 +432,8 @@ breed_traits %>%
 ## GitHub link
 
   20. Below, provide a link to your GitHub page with this set of Weekly Exercises. Specifically, if the name of the file is 03_exercises.Rmd, provide a link to the 03_exercises.md file, which is the one that will be most readable on GitHub.
+  
+[here](https://github.com/AlexShevchenko9999/comp_112_hw3/blob/main/03_exercises.md).
 
 ## Challenge problem! 
 
